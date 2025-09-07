@@ -3,8 +3,9 @@ import './App.css'
 import { useFetchProducts, useFetchProductById } from './components/products'
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Chatbot from './components/chatbot';
 
-
+//Mock Commit
 function App() {
   const { products, loading, error } = useFetchProducts();
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -197,6 +198,7 @@ function App() {
 
         </div>
       </div>
+      <Chatbot />
     </div>
   )
 }
