@@ -1,12 +1,34 @@
 import { useState } from 'react'
 import './App.css'
 import { useFetchProducts, useFetchProductById } from './components/products'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 function App() {
   const { products, loading, error } = useFetchProducts();
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [searchId, setSearchId] = useState('');
   const { product, loading: productLoading, error: productError } = useFetchProductById(selectedProductId);
+
+  // 🔹 Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
+
+  // Calculate pagination indexes
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const totalPages = Math.ceil(products.length / productsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -20,38 +42,51 @@ function App() {
 
   return (
     <div>
-      {/* <h1 className="mb-4">Our Products</h1> */}
-
-      <div class="container-fluid">
-        <div class="text-bg-secondary p-3">
+    <div className="w-100">
+        <div className="p-3">
           {/* Navigation Bar */}
-          <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-            <div class="container-fluid">
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+          <nav className="navbar navbar-expand-lg" data-bs-theme="dark">
+            <div className="container-fluid">
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon"></span>
               </button>
-              <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="#">DevShri Brand</a>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a className="navbar-brand" href="#">DEVSHRI</a>
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li className="nav-item">
+                    <a className="nav-link active" aria-current="page" href="#">Home</a>
                   </li>
-                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Product</a>
+                  <li className="nav-item">
+                    <a className="nav-link active" aria-current="page" href="#">Product</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">About us</a>
+                  <li className="nav-item">
+                    <a className="nav-link" aria-current="page" href="#">About us</a>
                   </li>
                 </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                  <button class="btn btn-outline-success" type="submit">Search</button>
+                <form className="d-flex" role="search" onSubmit={handleSearch}>
+                  <input
+                    className="form-control me-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    value={searchId}
+                    onChange={(e) => setSearchId(e.target.value)}
+                  />
+                  <button className="btn btn-outline-success" type="submit">Search</button>
                 </form>
               </div>
             </div>
           </nav>
-          <br>
-          </br>
+
+          <br />
 
           {/* Selected Product Details */}
           {selectedProductId && (
@@ -80,20 +115,18 @@ function App() {
           )}
 
           {/* Product List */}
-
-
-          <div class="row">
-            {products.map((product) => (
-              <div key={product.id} class="col-sm-6 mb-3 mb-sm-0">
-                <div class="card text-bg-light-center mb-3" style={{ height: '350px' }}>
-                  <div class="card-body">
-                    <h5 class="card-title" >{product.name}</h5>
-                    <p class="card-text">{product.description}</p>
-                    <p class="card-text">
+          <div className="row">
+            {currentProducts.map((product) => (
+              <div key={product.id} className="col-sm-6 mb-3 mb-sm-0">
+                <div className="card text-bg-light-center mb-3" style={{ height: '350px' }}>
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <p className="card-text">{product.description}</p>
+                    <p className="card-text">
                       <strong>Price: ${product.price}</strong>
                     </p>
                     <button
-                      class="btn btn-primary"
+                      className="btn btn-primary"
                       onClick={() => setSelectedProductId(product.id)}
                     >
                       View Details
@@ -102,46 +135,67 @@ function App() {
                 </div>
               </div>
             ))}
+          </div>
 
-            {/* Added the Footer Class */}
-            <footer class="bg-dark text-light pt-4">
-              <div class="container">
-                <div class="row">
-                  {/* <!-- Column 1: Connect --> */}
-                  <div class="col-md-6 mb-3">
-                    <h5>Connect</h5>
-                    <ul class="list-unstyled">
-                      <li><a href="mailto:contact@yourstore.com" class="text-light text-decoration-none">📧 DevShri@gamil.com</a></li>
-                      <li><a href="#" class="text-light text-decoration-none">📱 +91 98765 43210</a></li>
-                      <li>
-                        <a href="https://github.com/Shrishti99" class="text-light me-2">🌐 CEO GitHub Repo</a><br></br>
-                        <a href="https://github.com/Dgit-10" class="text-light me-2">📘 Employee GitHub Repo</a><br></br>
-                        <a href="https://github.com/Shrishti99/E-Commerce-Frontend" class="text-light">📸 Source Code for FrontEnd</a><br></br>
-                        <a href='https://github.com/Shrishti99/SpringBootHandsOn' class='text-light'>Source Code for Backend</a><br></br>
-                      </li>
-                    </ul>
-                  </div>
+          {/* Pagination Controls */}
+          <div className="d-flex justify-content-center align-items-center my-3">
+            <button
+              className="btn btn-outline-primary me-2"
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+            >
+              ◀ Prev
+            </button>
+            <span className="fw-bold">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="btn btn-outline-primary ms-2"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              Next ▶
+            </button>
+          </div>
 
-                  {/* <!-- Column 2: Info / Other --> */}
-                  <div class="col-md-6 mb-3">
-                    <h5>Information</h5>
-                    <ul class="list-unstyled">
-                      <li><a href="components/aboutUs.js" class="text-light text-decoration-none">About Us</a></li>
-                      <li><a href="#" class="text-light text-decoration-none">Terms & Conditions</a></li>
-                      <li><a href="#" class="text-light text-decoration-none">Privacy Policy</a></li>
-                    </ul>
-                  </div>
+          {/* Footer */}
+          <footer className="footer">
+            <div className="container">
+              <div className="row">
+                {/* Column 1: Connect */}
+                <div className="col-md-6 mb-3">
+                  <h5>Connect with Us</h5>
+                  <ul className="list-unstyled">
+                    <li><a href="mailto:contact@yourstore.com"><i className="bi bi-envelope-fill me-2"></i> DevShri@gmail.com</a></li>
+                    <li><a href="#"><i className="bi bi-telephone-fill me-2"></i> +91 98765 43210</a></li>
+                    <li>
+                      <a href="https://github.com/Shrishti99" target="_blank" rel="noopener noreferrer"><i className="bi bi-github me-2"></i> CEO GitHub Repo</a><br />
+                      <a href="https://github.com/Dgit-10" target="_blank" rel="noopener noreferrer"><i className="bi bi-github me-2"></i> Employee GitHub Repo</a><br />
+                      <a href="https://github.com/Shrishti99/E-Commerce-Frontend" target="_blank" rel="noopener noreferrer"><i className="bi bi-code-slash me-2"></i> Frontend Source Code</a><br />
+                      <a href="https://github.com/Shrishti99/SpringBootHandsOn" target="_blank" rel="noopener noreferrer"><i className="bi bi-server me-2"></i> Backend Source Code</a>
+                    </li>
+                  </ul>
                 </div>
 
-                {/* <!-- Copyright --> */}
-                <div class="text-center py-3 border-top border-secondary mt-3">
-                  <p class="mb-0">&copy; 2025 DevShri E-Commerce. All rights reserved.</p>
+                {/* Column 2: Info */}
+                <div className="col-md-6 mb-3">
+                  <h5>Information</h5>
+                  <ul className="list-unstyled">
+                    <li><a href="components/aboutUs.js"><i className="bi bi-info-circle me-2"></i> About Us</a></li>
+                    <li><a href="#"><i className="bi bi-file-earmark-text me-2"></i> Terms & Conditions</a></li>
+                    <li><a href="#"><i className="bi bi-shield-lock me-2"></i> Privacy Policy</a></li>
+                  </ul>
                 </div>
               </div>
-            </footer>
 
-          </div>
-        </div >
+              {/* Copyright */}
+              <div className="text-center py-3 border-top mt-3">
+                <p className="mb-0">&copy; 2025 DevShri E-Commerce. All rights reserved.</p>
+              </div>
+            </div>
+          </footer>
+
+        </div>
       </div>
     </div>
   )
