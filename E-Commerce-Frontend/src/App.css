@@ -1,14 +1,18 @@
 /* Import Bootstrap CSS */
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
-/* ...existing code... */
+/* General App styling */
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem; */
   text-align: center;
+  background-color: #f9fafc; /* Light background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 }
 
+/* Logo */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -37,10 +41,159 @@
   }
 }
 
+/* Card Styling */
 .card {
-  padding: 2em;
+  padding: 1.5em;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+.card-title {
+  color: #2c3e50;
+  font-weight: bold;
+}
+.card-text {
+  color: #555;
 }
 
-.read-the-docs {
-  color: #888;
+/* Buttons */
+.btn-primary {
+  background-color: #4e73df;
+  border-color: #4e73df;
+  border-radius: 25px;
+  padding: 8px 20px;
+  transition: all 0.3s ease;
 }
+.btn-primary:hover {
+  background-color: #2e59d9;
+  border-color: #2e59d9;
+}
+.btn-secondary {
+  background-color: #1cc88a;
+  border-color: #1cc88a;
+  border-radius: 25px;
+}
+.btn-secondary:hover {
+  background-color: #17a673;
+  border-color: #17a673;
+}
+
+/* Navbar Styling */
+.navbar {
+  background: linear-gradient(90deg, #4e73df, #1cc88a) !important;
+  border-bottom: 3px solid #e2e6ea;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #fff !important;
+}
+.navbar-nav .nav-link {
+  color: #f1f1f1 !important;
+  transition: color 0.3s ease;
+}
+.navbar-nav .nav-link:hover {
+  color: #ffe082 !important; /* soft yellow hover */
+}
+
+/* Navbar Search Bar */
+.navbar .form-control {
+  background-color: #fff !important;   /* White background */
+  color: #212529 !important;           /* Darker text */
+  font-weight: 500;                    /* Slightly bolder text */
+  border: 1px solid #ccc;              /* Light border */
+  border-radius: 25px;                 /* Rounded edges */
+  padding: 6px 15px;
+  transition: all 0.3s ease;
+}
+
+.navbar .form-control::placeholder {
+  color: #666;                         /* Darker placeholder text */
+  opacity: 1;
+}
+
+.navbar .form-control:focus {
+  border-color: #4e73df;               /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(78, 115, 223, 0.5);
+  outline: none;
+}
+
+/* Navbar Search Button */
+.navbar .btn-outline-success {
+  color: #fff !important;
+  background-color: #4e73df !important;  /* Dark blue */
+  border: none !important;
+  border-radius: 25px;
+  padding: 6px 20px;
+  transition: all 0.3s ease;
+}
+
+.navbar .btn-outline-success:hover {
+  background-color: #2e59d9 !important;  /* Slightly darker blue */
+  color: #fff !important;
+}
+/* Footer Styling */
+footer {
+  background: linear-gradient(90deg, #4e73df, #1cc88a) !important; /* same as header */
+  padding: 10px 0 !important;   /* reduced height */
+  color: #fff !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+footer h5 {
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+footer ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+footer li {
+  margin-bottom: 6px;
+}
+
+footer a {
+  color: #f1f1f1 !important;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+footer a:hover {
+  color: #ffe082 !important; /* soft yellow hover */
+}
+
+footer p {
+  color: #eaeaea !important;
+  font-size: 0.85rem;
+}
+
+footer .text-center {
+  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+  margin-top: 10px;
+  padding-top: 8px;
+  font-size: 0.8rem;
+  color: #f1f1f1 !important;
+}
+.container,
+.container-fluid {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: 100% !important;
+}
+
