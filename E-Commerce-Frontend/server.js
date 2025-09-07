@@ -1,49 +1,42 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 dotenv.config();
-import { OpenAI } from "openai";
 
 const app = express();
-const port = process.env.PORT || 3005;
-const apiKey = process.env.VITE_OPEN_AI_KEY;
-const openai = new OpenAI({ apiKey: apiKey });
+const PORT = 3005;
 
+// Middleware
 app.use(cors());
-app.use(express.json()); 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.use(express.json());
+
+// Gemini setup
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+// You can also try "gemini-1.5-pro" for deeper responses
+
+// Chatbot route
+app.post("/chatbot", async (req, res) => {
+  try {
+    const { question } = req.body;
+
+    if (!question || question.trim() === "") {
+      return res.status(400).json("Please provide a valid question.");
+    }
+
+    const result = await model.generateContent(question);
+
+    const answer = result.response.text();
+    res.json(answer);
+  } catch (error) {
+    console.error("Error from Gemini:", error);
+    res.status(500).json("Oops! Something went wrong with Gemini API.");
+  }
 });
 
-// Here, we define the '/chatbot' route to handle questions from our 
-// frontend React application
-app.post("/chatbot", async (req, res) => {
-// The 'question' variable is the user's input from the frontend
-  const { question } = req.body;
-  // Here is where we communicate with the OpenAI API to create our chatbot.
-  // We store the chatbot's response in the 'response' variable
-  const response = await openai.chat.completions.create({
-    messages: [
-  // We give the chatbot a role with some content to determine how it will behave
-      {
-        role: "system",
-        content:
-          "You are a helpful assistant.",
-      },
-  // We ask the chatbot to generate an answer based on the user's question
-  // Remember, this question will come from the frontend
-      {
-        role: "user",
-        content: question,
-      },
-    ],
-  // We choose the model we want to use for our chatbot
-    model: "gpt-3.5-turbo",
-  // We add a value for max_tokens to ensure the response won't exceed 300 tokens
-  // This is to make sure the responses aren't too long
-    max_tokens: 300,
-  });
-// Then we take the text response and display it on the server
-// Note: This will only work once we set up our frontend logic
-  res.send(response.choices[0].message.content);
+// Start server
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
