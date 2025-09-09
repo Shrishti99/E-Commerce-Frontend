@@ -2,10 +2,9 @@ import { useState } from 'react'
 import './App.css'
 import { useFetchProducts, useFetchProductById } from './components/products'
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 // import Chatbot from './components/Chatbot';
 
-//Mock Commit
 function App() {
   const { products, loading, error } = useFetchProducts();
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -43,7 +42,7 @@ function App() {
 
   return (
     <div>
-    <div className="w-100">
+      <div className="w-100">
         <div className="p-3">
           {/* Navigation Bar */}
           <nav className="navbar navbar-expand-lg" data-bs-theme="dark">
@@ -60,16 +59,16 @@ function App() {
                 <span className="navbar-toggler-icon"></span>
               </button>
               <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a className="navbar-brand" href="#">DEVSHRI</a>
+                <Link className="navbar-brand" to="/">DEVSHRI</Link>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="/">Home</a>
+                    <Link className="nav-link active" to="/">Home</Link>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="/products">Product</a>
+                    <Link className="nav-link active" to="/products">Product</Link>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="#">About us</a>
+                    <Link className="nav-link" to="/about">About us</Link>
                   </li>
                 </ul>
                 <form className="d-flex" role="search" onSubmit={handleSearch}>
@@ -182,7 +181,7 @@ function App() {
                 <div className="col-md-6 mb-3">
                   <h5>Information</h5>
                   <ul className="list-unstyled">
-                    <li><a href="components/aboutUs.js"><i className="bi bi-info-circle me-2"></i> About Us</a></li>
+                    <li><Link to="/about"><i className="bi bi-info-circle me-2"></i> About Us</Link></li>
                     <li><a href="#"><i className="bi bi-file-earmark-text me-2"></i> Terms & Conditions</a></li>
                     <li><a href="#"><i className="bi bi-shield-lock me-2"></i> Privacy Policy</a></li>
                   </ul>
