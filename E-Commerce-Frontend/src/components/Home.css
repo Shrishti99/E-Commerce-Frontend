@@ -1,9 +1,19 @@
-.home-container {
-  text-align: center;
-  padding: 2rem;
-  background-color: #f9fafc; /* same as App background */
-  min-height: 100vh;
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
+
+.home-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f9fafc;
+  display: flex;
+  flex-direction: column;
+}
+
+
 
 .brand-name {
   font-size: 3rem;

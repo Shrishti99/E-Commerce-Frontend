@@ -3,7 +3,7 @@ import './App.css'
 import { useFetchProducts, useFetchProductById } from './components/products'
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Chatbot from './components/chatbot';
+// import Chatbot from './components/Chatbot';
 
 //Mock Commit
 function App() {
@@ -63,10 +63,10 @@ function App() {
                 <a className="navbar-brand" href="#">DEVSHRI</a>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="#">Home</a>
+                    <a className="nav-link active" aria-current="page" href="/">Home</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="#">Product</a>
+                    <a className="nav-link active" aria-current="page" href="/products">Product</a>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" aria-current="page" href="#">About us</a>
@@ -198,7 +198,7 @@ function App() {
 
         </div>
       </div>
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   )
 }
